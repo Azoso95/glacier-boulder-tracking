@@ -1,0 +1,87 @@
+project:
+  name: glacier-boulder-tracker
+  seed: 12
+data:
+  tensor_gsd_m_per_px: 0.1
+  simulated_effective_gsd_m_per_px:
+  - 0.1
+  - 0.2
+  - 0.3
+  downsample_mode: area
+  upsample_mode: bilinear
+  image_dtype: uint8
+  image_layout: CHW
+preparation:
+  survey_metadata_filename: survey.yaml
+  observation_stem: observations
+  aoi_stem: aoi
+  require_aoi: false
+  bands:
+  - 1
+  - 2
+  - 3
+  compute_checksums: true
+  hdf5_compression: gzip
+  glaciers:
+  - miage
+  - ciardoney
+  - gorner
+  - zmutt
+pairing:
+  strategy: all_chronological
+  allow_reverse: false
+  minimum_interval_days: 0
+  maximum_interval_days: null
+  explicit_pairs: []
+sampling:
+  spatial_group_column: spatial_group
+  keep_tracks_atomic: true
+  reject_cross_split_window_overlap: true
+  reference_placement: uniform_safe
+  search_placement: controlled_composition
+  reference_crop_size_px:
+  - 384
+  - 384
+  search_crop_size_px:
+  - 512
+  - 512
+  reference_margin_px: 16
+  search_center_jitter_m:
+  - 15.0
+  - 15.0
+  samples_per_track_pair: 8
+  sample_composition:
+    positive: 4
+    target_outside_window: 4
+    distractor: 0
+    target_unobservable: 0
+  negative_exclusion_margin_m: 2.0
+  distractor_same_spatial_group: true
+  sampling_attempts: 64
+  positive_target_margin_px: 16
+  minimum_valid_fraction: 0.95
+  require_spatial_group: false
+  include_no_match: true
+  negative_types:
+  - target_outside_window
+  - target_unobservable
+  - distractor
+inference:
+  maximum_cached_tiles: 512
+  match_logit_weight: 1.0
+  search:
+    mode: radius
+    radius_m: 75.0
+    maximum_radius_m: null
+    ring_step_m: 100.0
+    tile_size_px:
+    - 512
+    - 512
+    tile_overlap: 0.5
+    tile_batch_size: 16
+  early_stop:
+    confidence_threshold: 0.8
+    stability_expansions: 1
+    stability_tolerance_m: 1.0
+    minimum_peak_margin: 0.1
+  decision_threshold: 0.5

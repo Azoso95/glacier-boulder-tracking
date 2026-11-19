@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glacier-boulder-tracker"
+version = "0.7.0"
+description = "Supraglacial boulder tracking study"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "affine>=2.4",
+  "geopandas>=1.0",
+  "h5py>=3.9",
+  "kornia==0.8.2",
+  "matplotlib>=3.8",
+  "numpy>=1.24",
+  "opencv-python-headless==4.12.0.88",
+  "pandas>=2.0",
+  "Pillow>=10",
+  "pyarrow>=14",
+  "pyogrio>=0.7",
+  "pyproj>=3.6",
+  "PyYAML>=6.0",
+  "rasterio>=1.3",
+  "scipy>=1.11",
+  "shapely>=2.0",
+  "torch>=2.5.1",
+  "torchvision>=0.20.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+glaciertrack = ["py.typed"]
